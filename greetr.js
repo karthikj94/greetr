@@ -10,7 +10,7 @@
         self.lastName  = lastName  || '';
         self.language  = language  || 'en';
 
-        self.validate(language);
+        self.validate();
     }
 
     var supportedLanguage = ['en', 'es'];
@@ -27,7 +27,7 @@
 
     Greetr.prototype = {
 
-        validate: function(language){
+        validate: function(){
             if(supportedLanguage.indexOf(this.language) === -1){
                 throw "Language not supported";
             }
@@ -35,10 +35,47 @@
 
         fullName: function(){
             return this.firstName + ' ' + this.lastName;
+        },
+
+        greeting: function(){
+            return this.greeting[this.language] + ' ' + this.firstName
+            + '!';
+        },
+
+        formalGreeting: function(){
+            return this.formalGreeting[this.language] + ' ' 
+            + this.fullName();
+        },
+
+        greet: function(selector, greetFormat){
+            if(!$){
+                throw "jQuery not loaded";
+            }
+
+            if(!selector){
+                throw "Missing jQuery selector";
+            }
+            
+            var greetMessage;
+
+            if(greetFormat){
+                greetMessage = this.formalGreeting();
+            }
+            
+            else{
+                greetMessage = this.greeting;
+            }
+
+            $(selector).html(msg);
+
+            return this;
+        }, 
+
+        setLanguage: function(lang){
+            this.language = lang;
+            this.validate();
+            return this;
         }
-
-
-
 
     };
 

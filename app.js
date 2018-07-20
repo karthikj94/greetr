@@ -1,2 +1,2 @@
 console.log(g$());
-console.log(Greetr());
+console.log(new Greetr().greet());
